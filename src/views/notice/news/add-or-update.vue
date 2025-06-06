@@ -1,14 +1,17 @@
 <template>
 	<el-dialog v-model="visible" :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" draggable>
 		<el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" :label-width="100">
-			<el-form-item label="设备id" prop="deviceId">
-				<el-input v-model="dataForm.deviceId" placeholder="设备id"></el-input>
+			<el-form-item label="标题" prop="title">
+				<el-input v-model="dataForm.title" placeholder="标题"></el-input>
 			</el-form-item>
-			<el-form-item label="设备名称" prop="name">
-				<el-input v-model="dataForm.name" placeholder="设备名称"></el-input>
+			<el-form-item label="内容" prop="content">
+				<el-input v-model="dataForm.content" placeholder="内容"></el-input>
 			</el-form-item>
-			<el-form-item label="类型" prop="type">
-				<el-input v-model="dataForm.type" placeholder="类型 1 灯 2 温湿度传感器 3 蜂鸣器  4 红外传感器"></el-input>
+			<el-form-item label="封面" prop="cover">
+				<ma-upload-images v-model="dataForm.cover"></ma-upload-images>
+			</el-form-item>
+			<el-form-item label="租户id" prop="tenantId">
+				<el-input v-model="dataForm.tenantId" placeholder="租户id" :disabled="true"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -21,24 +24,22 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus/es'
-import { useDeviceApi, useDeviceSubmitApi } from '@/api/iot/device'
+import { useNewsApi, useNewsSubmitApi } from '@/api/notice/news'
+import { useUserStore } from '@/store/modules/user'
 
 const emit = defineEmits(['refreshDataList'])
 
 const visible = defineModel<boolean>('visible')
 const dataFormRef = ref()
 
+const userStore = useUserStore()
+
 const dataForm = reactive({
 	id: '',
-	deviceId: '',
-	name: '',
-	type: '',
-	isSwitched: '',
-	status: '',
-	temperature: '',
-	humidity: '',
-	tenantId: '',
-	adminId: '',
+	title: '',
+	content: '',
+	cover: '',
+	tenantId: userStore.user.id, // 自动设置为当前用户ID
 	createTime: '',
 	updateTime: '',
 	deleted: ''
@@ -46,22 +47,21 @@ const dataForm = reactive({
 
 const init = (id?: number) => {
 	if (id) {
-		getDevice(id)
+		getNews(id)
 	}
 }
 
-const getDevice = (id: number) => {
-	useDeviceApi(id).then(res => {
+const getNews = (id: number) => {
+	useNewsApi(id).then(res => {
 		Object.assign(dataForm, res.data)
 	})
 }
 
 const dataRules = ref({
-	deviceId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-	name: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-	type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-	isSwitched: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-	status: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
+	title: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+	content: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+	cover: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+	tenantId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 })
 
 // 表单提交
@@ -71,7 +71,7 @@ const submitHandle = () => {
 			return false
 		}
 
-		useDeviceSubmitApi(dataForm).then(() => {
+		useNewsSubmitApi(dataForm).then(() => {
 			ElMessage.success({
 				message: '操作成功',
 				duration: 500,
