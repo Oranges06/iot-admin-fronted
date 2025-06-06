@@ -1,6 +1,9 @@
 <template>
 	<el-card class="layout-query">
 		<el-form ref="queryRef" :inline="true" :model="state.queryForm" @keyup.enter="getDataList()">
+			<el-form-item prop="title">
+				<el-input v-model="state.queryForm.title" placeholder="标题"></el-input>
+			</el-form-item>
 			<el-form-item>
 				<el-button icon="Search" type="primary" @click="getDataList()">查询</el-button>
 			</el-form-item>
@@ -68,7 +71,9 @@ import AddOrUpdate from './add-or-update.vue'
 const state: IHooksOptions = reactive({
 	dataListUrl: '/new/notice/news/page',
 	deleteUrl: '/new/notice/news',
-	queryForm: {}
+	queryForm: {
+		title: ''
+	}
 })
 
 const queryRef = ref()
