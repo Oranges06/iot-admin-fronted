@@ -1,7 +1,7 @@
 import service from '@/utils/request'
 
 export const useNewsApi = (id: number) => {
-	return service.get('/new/notice/news/' + id)
+	return service.get('/notice/news/' + id)
 }
 
 export const useNewsSubmitApi = (dataForm: any) => {
