@@ -15,14 +15,18 @@
 			<el-space>
 				<el-button v-auth="'app:resident:save'" icon="Plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
 			</el-space>
+			<!-- 移除导入按钮
 			<el-space v-auth="'app:resident:import'" style="margin-top: 10px">
 				<ma-upload-file action="/app/resident/import">
 					<el-button plain icon="Upload">导入</el-button>
 				</ma-upload-file>
 			</el-space>
+			-->
+			<!-- 移除导出按钮
 			<el-space>
 				<el-button v-auth="'app:resident:export'" plain icon="Download" @click="downloadHandle('/app/resident/export')">导出</el-button>
 			</el-space>
+			-->
 			<el-space>
 				<el-button v-auth="'app:resident:delete'" icon="Delete" plain type="danger" @click="deleteBatchHandle()">批量删除</el-button>
 			</el-space>

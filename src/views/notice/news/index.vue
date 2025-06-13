@@ -18,9 +18,11 @@
 			<el-space>
 				<el-button v-auth="'notice:news:save'" icon="Plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
 			</el-space>
+			<!-- 移除导出按钮
 			<el-space>
 				<el-button v-auth="'notice:news:export'" plain icon="Download" @click="downloadHandle('/notice/news/export')">导出</el-button>
 			</el-space>
+			-->
 			<el-space>
 				<el-button v-auth="'notice:news:delete'" icon="Delete" plain type="danger" @click="deleteBatchHandle()">批量删除</el-button>
 			</el-space>

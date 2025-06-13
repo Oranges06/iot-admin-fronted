@@ -21,9 +21,11 @@
 
 	<el-card>
 		<el-space>
+			<!-- 移除导出按钮
 			<el-space>
 				<el-button v-auth="'iot:device:export'" plain icon="Download" @click="downloadHandle('/new/iot/device/export')">导出</el-button>
 			</el-space>
+			-->
 			<el-space>
 				<el-button v-auth="'iot:device:delete'" icon="Delete" plain type="danger" @click="deleteBatchHandle()">批量删除</el-button>
 			</el-space>
